@@ -9,18 +9,23 @@ class StockServices(object):
     def index(self):
         return "Hello World!"
 
+    #Returns top 10 stocks based on closing value
     @cherrypy.expose
     def gettop10stocks(self):
         return json.dumps(getTopStocks(10))
 
+    #Returns list of stock names for a given substring
     @cherrypy.expose
     def searchStockNames(self,query):
         return json.dumps(search_stocks(query,5))
 
+    #Returns stock data for a particular stock name
     @cherrypy.expose
     def getStockData(self,stockname):
         return json.dumps(getStockData(stockname))
 
+    #Downloads data and inserts into redis for the given date.
+    #TODO: Currently replaces the existing records for a new date
     @cherrypy.expose
     def scrapeData(self,date):
         return json.dumps(scrapeData(date))

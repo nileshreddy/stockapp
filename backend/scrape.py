@@ -4,6 +4,7 @@ import csv
 from redis_db import parseFile
 import urllib.request
 
+#downloads data for given date
 def download(dirpath,filename):
     url = "https://www.bseindia.com/download/BhavCopy/Equity/"+filename
     urllib.request.urlretrieve(url, dirpath+filename)
@@ -16,6 +17,7 @@ def extract(filepath,outpath):
 DOWNLOAD_PATH = "data/download/"
 PROCESS_PATH = "data/process/"
 
+#downloads, unzips and inserts data to redis
 def scrapeData(date):
     # date = "210219"
     download(DOWNLOAD_PATH,"EQ"+date+"_CSV.ZIP")

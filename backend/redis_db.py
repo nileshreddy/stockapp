@@ -5,6 +5,10 @@ import sys
 
 redisClient = redis.StrictRedis(host='localhost', port=6379,db=0,password='root')
 
+#Inserts stock data as three types
+# 1. hashmap with stockname as key and data as value
+# 2. orderset with stockname as key and closing value as score  - used for top 10
+# 3. orderset for search
 def record_stock(stockdata):
     pipe = redisClient.pipeline(True)
     stockname = stockdata["SC_NAME"].strip().upper()
@@ -13,6 +17,7 @@ def record_stock(stockdata):
     insert_stock_search(pipe,stockname)
     pipe.execute()
 
+# inserts each substring in ordered set with the same count for search
 def insert_stock_search(pipe,stock_name):       
     for i in range(1,len(stock_name)):             
             prefix = stock_name[0:i]             
